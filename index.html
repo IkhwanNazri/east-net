@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Acrylic - Produk Berkualiti Tinggi</title>
+    <meta
+      property="og:title"
+      content="Custom Acrylic - Produk Berkualiti Tinggi"
+    />
+    <meta
+      property="og:description"
+      content="Dapatkan produk acrylic custom dengan harga terbaik dan penghantaran pantas. Pilihan pelbagai kategori dan tempahan mudah melalui WhatsApp."
+    />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop"
+    />
+    <meta property="og:url" content="https://your-website-link.com" />
+    <meta property="og:type" content="website" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3B82F6",
+              secondary: "#1E40AF",
+              accent: "#F59E0B",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center"
+            >
+              <i class="fas fa-cube text-white text-xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800">Custom Acrylic</h1>
+          </div>
+          <div class="hidden md:flex items-center space-x-6">
+            <a
+              href="#home"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Utama</a
+            >
+            <a
+              href="#products"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Produk</a
+            >
+            <a
+              href="#about"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Tentang</a
+            >
+            <a
+              href="#contact"
+              class="text-gray-600 hover:text-primary transition-colors"
+              >Hubungi</a
+            >
+          </div>
+          <div class="md:hidden">
+            <button
+              id="mobile-menu-btn"
+              class="text-gray-600 hover:text-primary"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="bg-gradient-to-r from-primary to-secondary text-white py-20"
+    >
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6">
+          Custom Acrylic Berkualiti Tinggi
+        </h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+          Dapatkan produk acrylic custom mengikut keperluan anda dengan kualiti
+          terbaik dan harga berpatutan
+        </p>
+        <a
+          href="#products"
+          class="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-block"
+        >
+          Lihat Produk
+        </a>
+      </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="bg-white py-8 border-b">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+          <!-- Search -->
+          <div class="flex-1 max-w-md">
+            <div class="relative">
+              <input
+                type="text"
+                id="search-input"
+                placeholder="Cari produk..."
+                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+              <i
+                class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              ></i>
+            </div>
+          </div>
+
+          <!-- Category Filter -->
+          <div class="flex flex-wrap gap-2">
+            <button
+              class="category-btn active px-4 py-2 rounded-full bg-primary text-white"
+              data-category="all"
+            >
+              Semua
+            </button>
+            <button
+              class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+              data-category="sign"
+            >
+              Papan Tanda
+            </button>
+            <button
+              class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+              data-category="display"
+            >
+              Display
+            </button>
+            <button
+              class="category-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-primary hover:text-white transition-colors"
+              data-category="decoration"
+            >
+              Hiasan
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+          Produk Kami
+        </h2>
+
+        <div
+          id="products-grid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
+          <!-- Products will be loaded here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="bg-gray-100 py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl font-bold mb-8 text-gray-800">Tentang Kami</h2>
+          <p class="text-lg text-gray-600 mb-8">
+            Kami adalah pengeluar acrylic custom terkemuka dengan pengalaman
+            lebih dari 10 tahun dalam industri ini. Kami menawarkan pelbagai
+            produk acrylic berkualiti tinggi untuk keperluan komersial dan
+            peribadi.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-medal text-4xl text-primary mb-4"></i>
+              <h3 class="text-xl font-semibold mb-2">Kualiti Terjamin</h3>
+              <p class="text-gray-600">
+                Produk kami menggunakan bahan berkualiti tinggi dengan standard
+                antarabangsa
+              </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-truck text-4xl text-primary mb-4"></i>
+              <h3 class="text-xl font-semibold mb-2">Penghantaran Pantas</h3>
+              <p class="text-gray-600">
+                Penghantaran ke seluruh Malaysia dengan masa yang cepat dan
+                selamat
+              </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-headset text-4xl text-primary mb-4"></i>
+              <h3 class="text-xl font-semibold mb-2">Sokongan 24/7</h3>
+              <p class="text-gray-600">
+                Sokongan pelanggan yang sedia membantu anda pada bila-bila masa
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl font-bold mb-8 text-gray-800">Hubungi Kami</h2>
+          <p class="text-lg text-gray-600 mb-8">
+            Untuk tempahan atau pertanyaan, sila hubungi kami melalui WhatsApp
+          </p>
+          <a
+            href="https://wa.me/60183249321"
+            target="_blank"
+            class="bg-green-500 text-white px-8 py-4 rounded-full font-semibold hover:bg-green-600 transition-colors inline-flex items-center space-x-2"
+          >
+            <i class="fab fa-whatsapp text-xl"></i>
+            <span>Chat WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+      <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2024 Custom Acrylic. Hak cipta terpelihara.</p>
+      </div>
+    </footer>
+
+    <!-- Product Modal -->
+    <div
+      id="product-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-50"
+    >
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div
+          class="bg-white rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto"
+        >
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold">Tambah ke Troli</h3>
+            <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <div id="modal-content">
+            <!-- Modal content will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
