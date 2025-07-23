@@ -1,3 +1,51 @@
+// Carousel functionality
+let currentSlide = 0;
+
+function showSlide(index) {
+  const slides = document.querySelectorAll('.carousel-slide');
+  const indicators = document.querySelectorAll('.indicator');
+  
+  slides.forEach(slide => slide.classList.remove('active'));
+  indicators.forEach(indicator => indicator.classList.remove('active'));
+  
+  slides[index].classList.add('active');
+  indicators[index].classList.add('active');
+}
+
+function nextSlide() {
+  const slides = document.querySelectorAll('.carousel-slide');
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}
+
+function prevSlide() {
+  const slides = document.querySelectorAll('.carousel-slide');
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  showSlide(currentSlide);
+}
+
+function goToSlide(index) {
+  currentSlide = index;
+  showSlide(currentSlide);
+}
+
+// Auto-play carousel
+let carouselInterval;
+
+function startCarousel() {
+  carouselInterval = setInterval(nextSlide, 3000); // Change slide every 3 seconds
+}
+
+function pauseCarousel() {
+  if (carouselInterval) {
+    clearInterval(carouselInterval);
+  }
+}
+
+function resumeCarousel() {
+  startCarousel();
+}
+
 // Data produk
 const products = [
   {
@@ -456,6 +504,33 @@ function showNotification(message, type = "info") {
 
 // Event listeners
 document.addEventListener("DOMContentLoaded", function () {
+  // Initialize carousel
+  const prevBtn = document.querySelector('.carousel-btn.prev');
+  const nextBtn = document.querySelector('.carousel-btn.next');
+  const indicators = document.querySelectorAll('.indicator');
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', prevSlide);
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', nextSlide);
+  }
+  
+  indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => goToSlide(index));
+  });
+  
+  // Start auto-play carousel
+  startCarousel();
+  
+  // Auto-play only - no pause on hover
+  // const carouselContainer = document.querySelector('.carousel-container');
+  // if (carouselContainer) {
+  //   carouselContainer.addEventListener('mouseenter', pauseCarousel);
+  //   carouselContainer.addEventListener('mouseleave', resumeCarousel);
+  // }
+  
   // Display initial products
   displayProducts();
 
