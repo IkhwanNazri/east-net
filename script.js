@@ -50,11 +50,11 @@ function resumeCarousel() {
 const products = [
   {
     id: 1,
-    name: "Papan Tanda Nama Syarikat",
-    category: "sign",
-    price: 150.0,
+    name: "CUSTOM ACRYLIC UV PRINT STAND Anime, Cartoon, Etc.",
+    category: "acrylic",
+    price: 5.50,
     image:
-      "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
+      "/img/my-11134207-7rasj-mb24xqbidrjec8.png",
     description:
       "Papan tanda nama syarikat dengan acrylic berkualiti tinggi, sesuai untuk pejabat dan premis perniagaan.",
   },
@@ -143,22 +143,28 @@ function displayProducts(productsToShow = products) {
   productsGrid.innerHTML = "";
 
   productsToShow.forEach((product) => {
+    // Tentukan jika produk adalah acrylic stand
+    const isAcrylicStand =
+      (product.category && product.category.toLowerCase() === "acrylic") ||
+      (product.name && product.name.toLowerCase().includes("stand"));
+
+    const badgeMin5 = isAcrylicStand
+      ? `<span class="inline-block bg-red-400 text-white text-xs font-bold px-3 py-2 rounded-full absolute top-2 left-2 shadow badge-min5">Min 5 pcs</span>`
+      : "";
+
     const productCard = document.createElement("div");
     productCard.className =
       "bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 product-card card-shadow";
     productCard.innerHTML = `
             <div class="relative">
-                <img src="${product.image}" alt="${
-      product.name
-    }" class="w-full h-48 object-cover image-hover">
+                <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover image-hover">
                 <div class="absolute top-2 right-2 bg-primary text-white px-2 py-1 rounded-full text-sm font-semibold badge badge-primary">
                     RM ${product.price.toFixed(2)}
                 </div>
+                ${badgeMin5}
             </div>
             <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">${
-                  product.name
-                }</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">${product.name}</h3>
                 <p class="text-gray-600 text-sm mb-4">${product.description}</p>
                 <button onclick="openProductModal(${product.id})" 
                         class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-secondary transition-colors font-semibold btn-primary">
