@@ -50,21 +50,23 @@ function resumeCarousel() {
 const products = [
   {
     id: 1,
-    name: "CUSTOM ACRYLIC UV PRINT STAND Anime, Cartoon, Etc.",
+    name: "Custom Acrylic Standee",
     category: "acrylic",
     price: 5.50,
+    hari:"Pre-order 7days",
     image:
       "/img/my-11134207-7rasj-mb24xqbidrjec8.png",
     description:
-      "Papan tanda nama syarikat dengan acrylic berkualiti tinggi, sesuai untuk pejabat dan premis perniagaan.",
+      "",
   },
   {
     id: 2,
-    name: "Display Stand Produk",
+    name: "[ A6 ] CUSTOM ACRYLIC STAND UV PRINT | Acrylic 100% Waterproof",
     category: "display",
     price: 89.0,
+    hari:"Pre-order 7days",
     image:
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+      "/img/my-11134207-7rash-mbvu404tfs5zb6.png",
     description:
       "Stand display produk yang elegan untuk mempamerkan barangan di kedai atau pameran.",
   },
@@ -73,6 +75,7 @@ const products = [
     name: "Hiasan Dinding Acrylic",
     category: "decoration",
     price: 120.0,
+    hari:"Pre-order 7days",
     image:
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop",
     description:
@@ -83,6 +86,7 @@ const products = [
     name: "Papan Tanda Restoran",
     category: "sign",
     price: 200.0,
+    hari:"Pre-order 7days",
     image:
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop",
     description:
@@ -93,6 +97,7 @@ const products = [
     name: "Display Counter",
     category: "display",
     price: 180.0,
+    hari:"Pre-order 7days",
     image:
       "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop",
     description:
@@ -103,6 +108,7 @@ const products = [
     name: "Lampu Hiasan Acrylic",
     category: "decoration",
     price: 95.0,
+    hari:"Pre-order 7days",
     image:
       "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=300&fit=crop",
     description:
@@ -113,6 +119,7 @@ const products = [
     name: "Papan Tanda Jalan",
     category: "sign",
     price: 250.0,
+    hari:"Pre-order 7days",
     image:
       "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
     description:
@@ -123,6 +130,7 @@ const products = [
     name: "Display Rack",
     category: "display",
     price: 160.0,
+    hari:"Pre-order 7days",
     image:
       "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop",
     description:
@@ -159,13 +167,14 @@ function displayProducts(productsToShow = products) {
             <div class="relative">
                 <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover image-hover">
                 <div class="absolute top-2 right-2 bg-primary text-white px-2 py-1 rounded-full text-sm font-semibold badge badge-primary">
-                    RM ${product.price.toFixed(2)}
+                    <i class="fas fa-clock mr-1"></i>
+                    ${product.hari}
                 </div>
                 ${badgeMin5}
             </div>
             <div class="p-4">
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">${product.name}</h3>
-                <p class="text-gray-600 text-sm mb-4">${product.description}</p>
+                <p class="text-gray-600 text-2xl mb-4 font-bold">RM ${product.price.toFixed(2)}</p>
                 <button onclick="openProductModal(${product.id})" 
                         class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-secondary transition-colors font-semibold btn-primary">
                     Pilih Produk
@@ -232,7 +241,15 @@ function openProductModal(productId) {
   modalContent.innerHTML = `
       <div class="text-center modal-content">
           <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg mb-4 image-hover cursor-pointer" onclick="openProductImage(${product.id})" title="Klik untuk lihat gambar penuh">
-          <h4 class="text-lg font-semibold mb-2">${product.name}</h4>
+       
+          <div class="items-center justify-between mb-2">
+              <h4 class="text-lg font-semibold mb-0 text-left">${product.name}</h4>
+          </div>
+          <div class="mb-2 text-xs text-gray-500 text-left"></div>
+          <div class="flex items-center justify-between mb-4">
+              <span class="font-semibold">Jumlah Harga</span>
+              <span class="text-green-600 font-bold text-xl" id="modal-total-price">RM ${(product.price).toFixed(2)}</span>
+          </div>
           <p class="text-gray-600 mb-4 text-sm">${product.description}</p>
           
           <div class="space-y-3">
@@ -244,12 +261,13 @@ function openProductModal(productId) {
               
               <div class="form-group">
                   <label class="block text-sm font-medium text-gray-700 mb-1 form-label">Saiz (cm):</label>
-                  <div class="grid grid-cols-2 gap-2">
-                      <input type="number" id="width" placeholder="Lebar" 
-                             class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent form-input custom-input">
-                      <input type="number" id="height" placeholder="Tinggi" 
-                             class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent form-input custom-input">
+                  <div id="size-variation" class="flex gap-2 justify-center mb-2">
+                      <button type="button" class="size-option px-4 py-2  border border-primary text-black bg-white hover:bg-primary hover:text-white transition" data-size="5">5cm</button>
+                      <button type="button" class="size-option px-4 py-2  border border-primary text-black bg-white hover:bg-primary hover:text-white transition" data-size="6">7cm</button>
+                      <button type="button" class="size-option px-4 py-2  border border-primary text-black bg-white hover:bg-primary hover:text-white transition" data-size="7">9cm</button>
                   </div>
+                  <input type="hidden" id="width" value="5">
+                  <input type="hidden" id="height" value="5">
               </div>
               
               <div class="form-group">
@@ -309,6 +327,31 @@ function openProductModal(productId) {
           </div>
       </div>
   `;
+
+  // Selepas modalContent.innerHTML, tambah event listener untuk size-option
+  const sizeOptions = modalContent.querySelectorAll('.size-option');
+  sizeOptions.forEach(btn => {
+      btn.addEventListener('click', function() {
+          // Remove active dari semua
+          sizeOptions.forEach(b => b.classList.remove('bg-primary', 'text-white'));
+          // Add active pada yang dipilih
+          this.classList.add('bg-primary', 'text-white');
+          this.classList.remove('text-primary', 'bg-white');
+          // Set hidden input
+          document.getElementById('width').value = this.dataset.size;
+          document.getElementById('height').value = this.dataset.size;
+      });
+  });
+
+  // Event listener untuk update harga total bila kuantiti berubah
+  const quantityInput = modalContent.querySelector('#quantity');
+  const totalPriceSpan = modalContent.querySelector('#modal-total-price');
+  quantityInput.addEventListener('input', function() {
+      let qty = parseInt(this.value) || 1;
+      if (qty < 1) qty = 1;
+      const total = qty * product.price;
+      totalPriceSpan.textContent = 'RM ' + total.toFixed(2);
+  });
 
   modal.classList.remove("hidden");
 }
@@ -465,6 +508,7 @@ Kuantiti: ${quantity}
 Saiz: ${width}cm x ${height}cm
 Warna: ${color}
 Nota: ${notes || "Tiada nota tambahan"}
+
 Harga Rujukan: RM ${product.price.toFixed(2)}
 
 Gambar Produk: ${product.image}`;
