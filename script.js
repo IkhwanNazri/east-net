@@ -369,7 +369,7 @@ function openProductModal(productId) {
       <div class="bg-white rounded-lg shadow-lg max-w-lg w-full mx-auto p-6 relative">
         
         <div class="text-center modal-content">
-          <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg mb-4 image-hover cursor-pointer" onclick="openProductImage(${product.id})" title="Klik untuk lihat gambar penuh">
+         
           <h4 class="text-lg font-semibold mb-2 text-left">${product.name}</h4>
           <div class="flex flex-col gap-4 mb-4">
             <div>
