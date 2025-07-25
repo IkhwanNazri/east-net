@@ -61,14 +61,14 @@ const products = [
   },
   {
     id: 2,
-    name: "[ A6 ] CUSTOM ACRYLIC STAND UV PRINT | Acrylic 100% Waterproof",
+    name: "[ A6 ] CUSTOM ACRYLIC STAND ",
     category: "display",
     price: 89.0,
     hari:"Pre-order 7days",
     image:
       "/img/my-11134207-7rash-mbvu404tfs5zb6.png",
     description:
-      "Stand display produk yang elegan untuk mempamerkan barangan di kedai atau pameran.",
+      "",
   },
   {
     id: 3,
@@ -177,7 +177,7 @@ function displayProducts(productsToShow = products) {
                 <p class="text-gray-600 text-2xl mb-4 font-bold">RM ${product.price.toFixed(2)}</p>
                 <button onclick="openProductModal(${product.id})" 
                         class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-secondary transition-colors font-semibold btn-primary">
-                    Pilih Produk
+                    Beli Sekarang <i class="fas fa-shopping-cart ml-2"></i>
                 </button>
             </div>
         `;
@@ -238,123 +238,315 @@ function openProductModal(productId) {
   const modal = document.getElementById("product-modal");
   const modalContent = document.getElementById("modal-content");
 
-  modalContent.innerHTML = `
-      <div class="text-center modal-content">
+  if (product.id === 1) {
+    modalContent.innerHTML = `
+      <div class="bg-white rounded-lg shadow-lg max-w-lg w-full mx-auto p-6 relative">
+        
+        <div class="text-center">
           <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg mb-4 image-hover cursor-pointer" onclick="openProductImage(${product.id})" title="Klik untuk lihat gambar penuh">
-       
-          <div class="items-center justify-between mb-2">
-              <h4 class="text-lg font-semibold mb-0 text-left">${product.name}</h4>
+          <h4 class="text-lg font-semibold mb-2">${product.name}</h4>
+          <div class="mb-4">
+            <span class="font-semibold block mb-1 text-left">Pilih Saiz:</span>
+            <div class="flex gap-2 justify-center mb-2">
+              <button type="button" class="size-btn active" data-size="5" data-price="5.50">5cm </button>
+              <button type="button" class="size-btn" data-size="7" data-price="7.50">7cm</button>
+              <button type="button" class="size-btn" data-size="9" data-price="9.00">9cm</button>
+            </div>
           </div>
-          <div class="mb-2 text-xs text-gray-500 text-left"></div>
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <button type="button" id="qty-minus" class="w-10 h-10 rounded-full bg-gray-200 text-2xl font-bold flex items-center justify-center shadow hover:bg-primary hover:text-white">-</button>
+            <span id="qty-value" class="w-10 text-center font-bold text-lg">1</span>
+            <button type="button" id="qty-plus" class="w-10 h-10 rounded-full bg-gray-200 text-2xl font-bold flex items-center justify-center shadow hover:bg-primary hover:text-white">+</button>
+          </div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-semibold">Harga seunit</span>
+            <span class="text-primary font-bold text-lg" id="modal-unit-price">RM 5.50</span>
+          </div>
           <div class="flex items-center justify-between mb-4">
-              <span class="font-semibold">Jumlah Harga</span>
-              <span class="text-green-600 font-bold text-xl" id="modal-total-price">RM ${(product.price).toFixed(2)}</span>
+            <span class="font-semibold">Jumlah Harga</span>
+            <span class="text-green-700 font-bold text-xl" id="modal-total-price">RM 5.50</span>
+          </div>
+          <div class="mb-4">
+           
+          </div>
+          <div class="mb-4">
+            
+          </div>
+          <button id="send-whatsapp-btn" class="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors font-semibold">
+            <i class="fab fa-whatsapp mr-2"></i>Hantar ke WhatsApp
+          </button>
+        </div>
+      </div>
+    `;
+
+    // Harga variasi
+    const sizePrices = { "5": 5.50, "7": 7.50, "9": 9.00 };
+    let selectedSize = "5";
+    let unitPrice = sizePrices[selectedSize];
+    let qty = 1;
+
+    function updateHarga() {
+      unitPrice = sizePrices[selectedSize];
+      document.getElementById('modal-unit-price').textContent = 'RM ' + unitPrice.toFixed(2);
+      document.getElementById('modal-total-price').textContent = 'RM ' + (unitPrice * qty).toFixed(2);
+    }
+
+    // Size button logic
+    modalContent.querySelectorAll('.size-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        modalContent.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active', 'bg-primary', 'text-white'));
+        this.classList.add('active', 'bg-primary', 'text-white');
+        selectedSize = this.getAttribute('data-size');
+        updateHarga();
+      });
+    });
+
+    // Kuantiti
+    const qtyMinus = modalContent.querySelector('#qty-minus');
+    const qtyPlus = modalContent.querySelector('#qty-plus');
+    const qtyValue = modalContent.querySelector('#qty-value');
+    qtyMinus.addEventListener('click', function() {
+        if (qty > 1) qty--;
+        qtyValue.textContent = qty;
+        updateHarga();
+    });
+    qtyPlus.addEventListener('click', function() {
+        qty++;
+        qtyValue.textContent = qty;
+        updateHarga();
+    });
+
+    // WhatsApp button event
+    const sendBtn = modalContent.querySelector('#send-whatsapp-btn');
+    sendBtn.addEventListener('click', function() {
+       
+        let message = `*Standee Character*\n\n*Produk:* ${product.name}\n*Saiz:* ${selectedSize}cm\n*Kuantiti:* ${qty}\n*Harga seunit:* RM ${unitPrice.toFixed(2)}\n*Jumlah Harga:* RM ${(unitPrice*qty).toFixed(2)}\n\nSila hubungi kami untuk pengesahan dan pembayaran.`;
+       
+        const whatsappUrl = `https://wa.me/60183249321?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    });
+
+    // Butang tutup dalam modal
+    // modalContent.querySelector('#close-modal-inner').addEventListener('click', function() {
+    //   modal.classList.add('hidden');
+    // });
+
+    // Styling untuk butang variasi
+    const style = document.createElement("style");
+    style.textContent = `
+      .size-btn {
+        border: 2px solid #3B82F6;
+        background: #f3f4f6;
+        color: #1e293b;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s;
+        outline: none;
+        cursor: pointer;
+        min-width: 80px;
+      }
+      .size-btn.active, .size-btn.bg-primary {
+        background: #3B82F6 !important;
+        color: #fff !important;
+        border-color: #3B82F6 !important;
+      }
+      .size-btn:not(.active):hover {
+        background: #e0e7ff;
+        color: #1e293b;
+      }
+    `;
+    document.head.appendChild(style);
+
+    updateHarga();
+    modal.classList.remove("hidden");
+    return;
+}
+
+  else if (product.id === 2) {
+    modalContent.innerHTML = `
+      <div class="bg-white rounded-lg shadow-lg max-w-lg w-full mx-auto p-6 relative">
+        
+        <div class="text-center modal-content">
+          <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg mb-4 image-hover cursor-pointer" onclick="openProductImage(${product.id})" title="Klik untuk lihat gambar penuh">
+          <h4 class="text-lg font-semibold mb-2 text-left">${product.name}</h4>
+          <div class="flex flex-col gap-4 mb-4">
+            <div>
+              <div class="font-semibold mb-1 text-left">Option:</div>
+              <div class="flex gap-2 justify-center md:justify-start" id="orientation-group">
+                <button type="button" data-value="portrait" class="orientation-btn active">Portrait<br><span class="text-xs text-gray-500"></span></button>
+                <button type="button" data-value="landscape" class="orientation-btn">Landscape<br><span class="text-xs text-gray-500"></span></button>
+              </div>
+            </div>
+            <div>
+              <div class="font-semibold mb-1 text-left">Base:</div>
+              <div class="flex gap-2 justify-center md:justify-start" id="base-group">
+                <button type="button" data-value="wood" class="base-btn active">Kayu<br><span class="text-xs text-gray-500"></span></button>
+                <button type="button" data-value="acrylic" class="base-btn">Acrylic<br><span class="text-xs text-gray-500"></span></button>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <button type="button" id="qty-minus" class="w-10 h-10 rounded-full bg-gray-200 text-2xl font-bold flex items-center justify-center shadow hover:bg-primary hover:text-white">-</button>
+            <span id="qty-value" class="w-10 text-center font-bold text-lg">1</span>
+            <button type="button" id="qty-plus" class="w-10 h-10 rounded-full bg-gray-200 text-2xl font-bold flex items-center justify-center shadow hover:bg-primary hover:text-white">+</button>
+          </div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-semibold">Harga seunit</span>
+            <span class="text-primary font-bold text-lg" id="modal-unit-price">RM 20.00</span>
+          </div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-semibold">Jumlah Harga</span>
+            <span class="text-green-700 font-bold text-xl" id="modal-total-price">RM 20.00</span>
           </div>
           <p class="text-gray-600 mb-4 text-sm">${product.description}</p>
-          
           <div class="space-y-3">
-              <div class="form-group">
-                  <label class="block text-sm font-medium text-gray-700 mb-1 form-label">Kuantiti:</label>
-                  <input type="number" id="quantity" min="1" value="1" 
-                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent form-input custom-input">
-              </div>
-              
-              <div class="form-group">
-                  <label class="block text-sm font-medium text-gray-700 mb-1 form-label">Saiz (cm):</label>
-                  <div id="size-variation" class="flex gap-2 justify-center mb-2">
-                      <button type="button" class="size-option px-4 py-2  border border-primary text-black bg-white hover:bg-primary hover:text-white transition" data-size="5">5cm</button>
-                      <button type="button" class="size-option px-4 py-2  border border-primary text-black bg-white hover:bg-primary hover:text-white transition" data-size="6">7cm</button>
-                      <button type="button" class="size-option px-4 py-2  border border-primary text-black bg-white hover:bg-primary hover:text-white transition" data-size="7">9cm</button>
-                  </div>
-                  <input type="hidden" id="width" value="5">
-                  <input type="hidden" id="height" value="5">
-              </div>
-              
-              <div class="form-group">
-                  <label class="block text-sm font-medium text-gray-700 mb-1 form-label">Warna:</label>
-                  <select id="color" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent form-input custom-input">
-                      <option value="transparent">Telus</option>
-                      <option value="white">Putih</option>
-                      <option value="black">Hitam</option>
-                      <option value="blue">Biru</option>
-                      <option value="red">Merah</option>
-                      <option value="green">Hijau</option>
-                  </select>
-              </div>
-              
-              <div class="form-group">
-                  <label class="block text-sm font-medium text-gray-700 mb-1 form-label">Nota Tambahan:</label>
-                  <textarea id="notes" placeholder="Sebutkan keperluan khas atau reka bentuk..." 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent form-input custom-input" rows="2"></textarea>
-              </div>
-              
-              <div class="form-group">
-                  <label class="flex items-center">
-                      <input type="checkbox" id="include-image" checked class="mr-2">
-                      <span class="text-sm text-gray-700">Sertakan gambar produk dalam mesej</span>
-                  </label>
-              </div>
+            
+            
           </div>
-          
           <div class="mt-6 space-y-2">
-              <button onclick="sendToWhatsApp(${product.id})" 
-                      class="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors font-semibold btn-success">
-                  <i class="fab fa-whatsapp mr-2"></i>Hantar ke WhatsApp
-              </button>
-              <button onclick="sendToWhatsAppWithImage(${product.id})" 
-                      class="w-full bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600 transition-colors font-semibold text-sm">
-                  <i class="fab fa-whatsapp mr-2"></i>Hantar Mesej (Hantar Gambar Manual)
-              </button>
+            <button id="send-whatsapp-btn" class="w-full bg-green-300 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors font-semibold btn-success">
+              <i class="fab fa-whatsapp mr-2"></i>Hantar ke WhatsApp
+            </button>
           </div>
-          
-          <div class="grid grid-cols-4 gap-2 mt-4">
-              <button onclick="copyProductInfo(${product.id})" 
-                      class="bg-blue-500 text-white py-2 px-3 rounded-lg hover:bg-blue-600 transition-colors font-semibold text-sm">
-                  <i class="fas fa-copy mr-1"></i>Salin
-              </button>
-              <button onclick="openProductImage(${product.id})" 
-                      class="bg-orange-500 text-white py-2 px-3 rounded-lg hover:bg-orange-600 transition-colors font-semibold text-sm">
-                  <i class="fas fa-external-link-alt mr-1"></i>Lihat
-              </button>
-              <button onclick="downloadProductImage(${product.id})" 
-                      class="bg-purple-500 text-white py-2 px-3 rounded-lg hover:bg-purple-600 transition-colors font-semibold text-sm">
-                  <i class="fas fa-download mr-1"></i>Muat Turun
-              </button>
-              <button onclick="sendImageToWhatsApp(${product.id})" 
-                      class="bg-pink-500 text-white py-2 px-3 rounded-lg hover:bg-pink-600 transition-colors font-semibold text-sm">
-                  <i class="fab fa-whatsapp mr-1"></i>Hantar Gambar
-              </button>
-          </div>
+        </div>
       </div>
-  `;
+    `;
 
-  // Selepas modalContent.innerHTML, tambah event listener untuk size-option
-  const sizeOptions = modalContent.querySelectorAll('.size-option');
-  sizeOptions.forEach(btn => {
+    // Harga asas
+    const basePrices = { portrait: 18.00, landscape: 25.00 };
+    const baseAdd = { wood: 2.00, acrylic: 5.00 };
+    let orientation = 'portrait';
+    let base = 'wood';
+    let qty = 1;
+    function updateHarga() {
+      const hargaUnit = basePrices[orientation] + baseAdd[base];
+      document.getElementById('modal-unit-price').textContent = 'RM ' + hargaUnit.toFixed(2);
+      document.getElementById('modal-total-price').textContent = 'RM ' + (hargaUnit * qty).toFixed(2);
+      return hargaUnit;
+    }
+
+    // Toggle button logic for orientation
+    modalContent.querySelectorAll('.orientation-btn').forEach(btn => {
       btn.addEventListener('click', function() {
-          // Remove active dari semua
-          sizeOptions.forEach(b => b.classList.remove('bg-primary', 'text-white'));
-          // Add active pada yang dipilih
-          this.classList.add('bg-primary', 'text-white');
-          this.classList.remove('text-primary', 'bg-white');
-          // Set hidden input
-          document.getElementById('width').value = this.dataset.size;
-          document.getElementById('height').value = this.dataset.size;
+        modalContent.querySelectorAll('.orientation-btn').forEach(b => b.classList.remove('active', 'bg-primary', 'text-white'));
+        this.classList.add('active', 'bg-primary', 'text-white');
+        orientation = this.getAttribute('data-value');
+        updateHarga();
       });
-  });
+    });
 
-  // Event listener untuk update harga total bila kuantiti berubah
-  const quantityInput = modalContent.querySelector('#quantity');
-  const totalPriceSpan = modalContent.querySelector('#modal-total-price');
-  quantityInput.addEventListener('input', function() {
-      let qty = parseInt(this.value) || 1;
-      if (qty < 1) qty = 1;
-      const total = qty * product.price;
-      totalPriceSpan.textContent = 'RM ' + total.toFixed(2);
-  });
+    // Toggle button logic for base
+    modalContent.querySelectorAll('.base-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        modalContent.querySelectorAll('.base-btn').forEach(b => b.classList.remove('active', 'bg-primary', 'text-white'));
+        this.classList.add('active', 'bg-primary', 'text-white');
+        base = this.getAttribute('data-value');
+        updateHarga();
+      });
+    });
 
-  modal.classList.remove("hidden");
+    // Kuantiti
+    const qtyMinus = modalContent.querySelector('#qty-minus');
+    const qtyPlus = modalContent.querySelector('#qty-plus');
+    const qtyValue = modalContent.querySelector('#qty-value');
+    qtyMinus.addEventListener('click', function() {
+      if (qty > 1) qty--;
+      qtyValue.textContent = qty;
+      updateHarga();
+    });
+    qtyPlus.addEventListener('click', function() {
+      qty++;
+      qtyValue.textContent = qty;
+      updateHarga();
+    });
+
+    // WhatsApp button event
+    const sendBtn = modalContent.querySelector('#send-whatsapp-btn');
+    sendBtn.addEventListener('click', function() {
+      const hargaUnit = basePrices[orientation] + baseAdd[base];
+      // const notes = document.getElementById('notes').value;
+      // const includeImage = document.getElementById('include-image').checked;
+      let message = `*PESANAN CUSTOM ACRYLIC*\n\n*Produk:* ${product.name}\n*option:* ${orientation.charAt(0).toUpperCase() + orientation.slice(1)}\n*Base:* ${base.charAt(0).toUpperCase() + base.slice(1)}\n*Kuantiti:* ${qty}\n*Harga seunit:* RM ${hargaUnit.toFixed(2)}\n*Jumlah Harga:* RM ${(hargaUnit*qty).toFixed(2)} || '-'}\n\nSila hubungi kami untuk pengesahan dan pembayaran.`;
+      // if (includeImage) {
+      //   message += `\n\n*Gambar Produk:* ${product.image}`;
+      // }
+      const whatsappUrl = `https://wa.me/60183249321?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    });
+
+    // Butang tutup dalam modal
+    // modalContent.querySelector('#close-modal-inner').addEventListener('click', function() {
+    //   modal.classList.add('hidden');
+    // });
+
+    // Styling untuk toggle button & tiada scroll bar
+    const style = document.createElement("style");
+    style.textContent = `
+      .orientation-btn, .base-btn {
+        border: 2px solid #3B82F6;
+        background: #f3f4f6;
+        color: #1e293b;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s;
+        outline: none;
+        cursor: pointer;
+        min-width: 100px;
+      }
+      .orientation-btn.active, .base-btn.active,
+      .orientation-btn.bg-primary, .base-btn.bg-primary {
+        background: #3B82F6 !important;
+        color: #fff !important;
+        border-color: #3B82F6 !important;
+      }
+      .orientation-btn:not(.active):hover, .base-btn:not(.active):hover {
+        background: #e0e7ff;
+        color: #1e293b;
+      }
+      .modal-content {
+        overflow: visible !important;
+        max-height: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    updateHarga();
+    modal.classList.remove("hidden");
+    return;
 }
+  else {
+    // MODAL GENERIK UNTUK PRODUK LAIN
+    modalContent.innerHTML = `
+        <div class="bg-white rounded-lg shadow-lg max-w-lg w-full mx-auto p-6 relative">
+            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-lg mb-4 image-hover cursor-pointer" onclick="openProductImage(${product.id})" title="Klik untuk lihat gambar penuh">
+            <h4 class="text-lg font-semibold mb-2">${product.name}</h4>
+            <p class="text-gray-600 mb-4">${product.description}</p>
+            <div class="flex items-center justify-between mb-2">
+                <span class="font-semibold">Harga:</span>
+                <span class="text-primary font-bold text-lg">RM ${product.price.toFixed(2)}</span>
+            </div>
+            <button id="send-whatsapp-btn" class="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors font-semibold">
+                <i class="fab fa-whatsapp mr-2"></i>Hantar ke WhatsApp
+            </button>
+        </div>
+    `;
+
+    // WhatsApp button event
+    const sendBtn = modalContent.querySelector('#send-whatsapp-btn');
+    sendBtn.addEventListener('click', function() {
+      sendToWhatsAppWithImage(product.id);
+    });
+
+    modal.classList.remove("hidden");
+  }
+
+
+}
+
 
 // Send image to WhatsApp
 function sendImageToWhatsApp(productId) {
